@@ -186,3 +186,28 @@
   北京时间: '37 9,12,15,18,20,22 * * *'
   next exec time: UTC(14:37) 北京时间(22:37)
   ```
+
+## Web界面使用说明
+
+除了使用GitHub Actions自动刷步数外，本项目新增了Web界面功能，可以通过浏览器直接修改步数。
+
+### 使用方法
+
+1. 安装依赖：
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. 启动Web服务：
+   ```bash
+   python web.py
+   ```
+
+3. 打开浏览器，访问：
+   ```
+   http://localhost:5000
+   ```
+
+4. 在网页表单中输入Zepp Life（小米运动）账号、密码和期望的步数，点击"提交修改"。
+
+5. 更多详细说明请查看 `web_README.md`。

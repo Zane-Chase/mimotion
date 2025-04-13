@@ -1,1 +1,29 @@
 /.idea/
+
+# Python缓存文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+.env
+
+# Web应用程序日志和临时文件
+web_access_log.txt
+*.log
+*.tmp
+
+# Flask相关
+instance/
+.webassets-cache
+
+# VS Code
+.vscode/
+
+# Windows系统文件
+Thumbs.db
+ehthumbs.db
+Desktop.ini

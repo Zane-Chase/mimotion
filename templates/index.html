@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zepp Life 步数修改</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        button, .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 15px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 15px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        button:hover, .btn:hover {
+            background-color: #0069d9;
+        }
+        .response {
+            margin-top: 25px;
+            padding: 20px 20px 20px 65px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.5s ease-out;
+            font-size: 16px;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .response::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background-size: cover;
+            background-position: center;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+        .success::before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234caf50"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>');
+        }
+        .error {
+            background-color: #fef0f0;
+            color: #c62828;
+            border-left: 4px solid #ef5350;
+        }
+        .error::before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ef5350"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
+        }
+        .response-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .response-close:hover {
+            opacity: 1;
+        }
+        .response-close:before, .response-close:after {
+            position: absolute;
+            left: 9px;
+            content: '';
+            height: 20px;
+            width: 2px;
+        }
+        .success .response-close:before, .success .response-close:after {
+            background-color: #2e7d32;
+        }
+        .error .response-close:before, .error .response-close:after {
+            background-color: #c62828;
+        }
+        .response-close:before {
+            transform: rotate(45deg);
+        }
+        .response-close:after {
+            transform: rotate(-45deg);
+        }
+        .response-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .info {
+            background-color: #e2f3fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        /* 滑块样式 */
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            margin-top: 15px;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Zepp Life 步数修改工具</h1>
+        
+        <div class="info">
+            <p>请输入您的 Zepp Life（小米运动）账号和密码，以及您想要设置的步数。</p>
+            <p>说明：账号为小米运动/Zepp Life 的登录账号（手机号或邮箱），而非小米账号。</p>
+        </div>
+        
+        <form id="stepForm" action="/modify_step" method="post">
+            <div class="form-group">
+                <label for="username">账号（手机号或邮箱）：</label>
+                <input type="text" id="username" name="username" required placeholder="请输入小米运动/Zepp Life账号">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">密码：</label>
+                <input type="password" id="password" name="password" required placeholder="请输入账号密码">
+            </div>
+            
+            <div class="form-group">
+                <label for="steps">步数：</label>
+                <input type="number" id="steps" name="steps" min="0" max="98800" value="0" required>
+                <input type="range" id="stepsSlider" min="0" max="98800" value="0" class="slider" style="width: 100%;">
+            </div>
+            
+            <button type="submit">提交修改</button>
+        </form>
+        
+        {% if message %}
+        <div class="response {% if success %}success{% else %}error{% endif %}">
+            <div class="response-content">
+                <div class="response-title">{% if success %}操作成功{% else %}操作失败{% endif %}</div>
+                <div class="response-message">{{ message }}</div>
+            </div>
+            <span class="response-close"></span>
+        </div>
+        <script>
+            // 如果表单提交成功且显示了消息，清空步数输入框
+            document.getElementById('steps').value = '';
+            document.getElementById('stepsSlider').value = '0';
+            
+            // 添加关闭按钮事件
+            const closeBtn = document.querySelector('.response-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    const responseDiv = this.parentElement;
+                    responseDiv.style.opacity = '0';
+                    responseDiv.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        responseDiv.remove();
+                    }, 300);
+                });
+            }
+        </script>
+        {% endif %}
+    </div>
+    
+    <script>
+        document.getElementById('stepForm').onsubmit = function(e) {
+            e.preventDefault(); // 阻止表单默认提交
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerText = '提交中...';
+            
+            // 创建FormData对象获取表单数据
+            const formData = new FormData(this);
+            
+            // 发送AJAX请求
+            fetch('/modify_step', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 创建或获取消息显示区域
+                let responseDiv = document.querySelector('.response');
+                if (!responseDiv) {
+                    responseDiv = document.createElement('div');
+                    responseDiv.className = 'response';
+                    document.getElementById('stepForm').insertAdjacentElement('afterend', responseDiv);
+                }
+                
+                // 根据返回结果更新消息样式和内容
+                responseDiv.className = 'response ' + (data.success ? 'success' : 'error');
+                responseDiv.innerHTML = `
+                    <div class="response-content">
+                        <div class="response-title">${data.success ? '操作成功' : '操作失败'}</div>
+                        <div class="response-message">${data.message}</div>
+                    </div>
+                    <span class="response-close"></span>
+                `;
+                
+                // 添加关闭按钮事件
+                const closeBtn = responseDiv.querySelector('.response-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        responseDiv.style.opacity = '0';
+                        responseDiv.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            responseDiv.remove();
+                        }, 300);
+                    });
+                }
+                
+                // 如果成功，清空步数输入框
+                if (data.success) {
+                    document.getElementById('steps').value = '';
+                    document.getElementById('stepsSlider').value = '0';
+                }
+            })
+            .catch(error => {
+                // 处理错误情况
+                let responseDiv = document.querySelector('.response');
+                if (!responseDiv) {
+                    responseDiv = document.createElement('div');
+                    responseDiv.className = 'response';
+                    document.getElementById('stepForm').insertAdjacentElement('afterend', responseDiv);
+                }
+                responseDiv.className = 'response error';
+                responseDiv.innerHTML = `
+                    <div class="response-content">
+                        <div class="response-title">操作失败</div>
+                        <div class="response-message">提交过程中发生错误，请稍后重试</div>
+                    </div>
+                    <span class="response-close"></span>
+                `;
+                
+                // 添加关闭按钮事件
+                const closeBtn = responseDiv.querySelector('.response-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        responseDiv.style.opacity = '0';
+                        responseDiv.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            responseDiv.remove();
+                        }, 300);
+                    });
+                }
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                submitButton.disabled = false;
+                submitButton.innerText = '提交修改';
+            });
+            
+            return false; // 防止表单默认提交
+        };
+
+        // 滑块和输入框同步
+        const stepsInput = document.getElementById('steps');
+        const stepsSlider = document.getElementById('stepsSlider');
+
+        stepsSlider.addEventListener('input', function() {
+            stepsInput.value = this.value;
+        });
+
+        stepsInput.addEventListener('input', function() {
+            stepsSlider.value = this.value;
+        });
+    </script>
+</body>
+</html> 
