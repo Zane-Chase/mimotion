@@ -13,12 +13,19 @@
             background-color: #f8f9fa;
         }
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block;
             min-height: 100vh;
-            padding: 20px;
+            padding: 100px 20px;
             box-sizing: border-box;
+        }
+        /* 主容器Flexbox布局 */
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 250px;
+            justify-content: center;
+            max-width: 1400px;
+            margin: 20px auto;
         }
         .container {
             background-color: #fff;
@@ -26,10 +33,17 @@
             padding: 30px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 550px;
-            margin: 0 auto;
+            max-width: 520px;
+            margin: 0;
+            flex: 1 1 400px;
         }
         h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        h2.section-title {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
@@ -175,14 +189,15 @@
         .slider {
             -webkit-appearance: none;
             appearance: none;
-            height: 8px;
-            background: #ddd;
-            border-radius: 4px;
+            height: 6px;
+            background: linear-gradient(to right, #e6f2ff, #99c2ff);
+            border-radius: 6px;
             outline: none;
-            opacity: 0.7;
+            opacity: 0.85;
             -webkit-transition: .2s;
-            transition: opacity .2s;
+            transition: all .2s ease;
             margin-top: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) inset;
         }
         .slider:hover {
             opacity: 1;
@@ -190,88 +205,353 @@
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: #007bff;
+            background: #4a9eff;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 3px rgba(0, 123, 255, 0.2);
+            border: 1.5px solid white;
+            transition: all .2s ease;
+        }
+        .slider::-webkit-slider-thumb:hover {
+            background: #3d8ee6;
+            transform: scale(1.05);
         }
         .slider::-moz-range-thumb {
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: #007bff;
+            background: #4a9eff;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 3px rgba(0, 123, 255, 0.2);
+            border: 1.5px solid white;
+            transition: all .2s ease;
+        }
+        .slider::-moz-range-thumb:hover {
+            background: #3d8ee6;
+            transform: scale(1.05);
         }
 
+        /* 表格样式 */
+        .step-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .step-table th, .step-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .step-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: normal;
+        }
+        .step-table tr:last-child td {
+            border-bottom: none;
+        }
+        .step-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .step-table tr:hover {
+            background-color: #f1f5ff;
+        }
+        .table-container {
+            display: none;
+            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .calc-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .calc-form .form-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        .calc-btn {
+            margin-top: 10px;
+            flex-basis: 100%;
+        }
+        /* 添加计算成功的动画效果 */
+        @keyframes highlightSuccess {
+            0% { background-color: rgba(76, 175, 80, 0.3); }
+            100% { background-color: transparent; }
+        }
+        .highlight-success {
+            animation: highlightSuccess 2s ease-out;
+        }
+
+        /* 响应式布局 */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                max-width: 100%;
+            }
+        }
+        
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
-            h1 {
+            h1, h2.section-title {
                 font-size: 22px;
             }
+        }
+
+        /* 卡片式结果布局 */
+        .results-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .result-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            width: calc(33.333% - 15px);
+            min-width: 220px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-time {
+            font-size: 22px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        .card-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .min-steps, .max-steps {
+            flex: 1;
+        }
+        .steps-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .steps-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .min-steps .steps-value {
+            color: #4caf50;
+        }
+        .max-steps .steps-value {
+            color: #ff9800;
+        }
+        @media (max-width: 768px) {
+            .result-card {
+                width: calc(50% - 10px);
+            }
+        }
+        @media (max-width: 480px) {
+            .result-card {
+                width: 100%;
+            }
+        }
+
+        /* 增强的表格样式 */
+        .enhanced-table-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+        .enhanced-step-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        .enhanced-step-table th, 
+        .enhanced-step-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .enhanced-step-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: normal;
+            font-size: 17px;
+        }
+        .enhanced-step-table tr:last-child td {
+            border-bottom: none;
+        }
+        .enhanced-step-table tr:nth-child(even) {
+            background-color: #f8faff;
+        }
+        .enhanced-step-table tr:hover {
+            background-color: #f0f7ff;
+        }
+        .enhanced-step-table td:first-child {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .enhanced-step-table td:nth-child(2) {
+            color: #4caf50;
+        }
+        .enhanced-step-table td:nth-child(3) {
+            color: #ff9800;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Zepp Life 步数修改工具</h1>
-        
-        <div class="info">
-            <p>请输入您的 Zepp Life（小米运动）账号和密码，以及您想要设置的步数。</p>
-            <p>说明：账号为小米运动/Zepp Life 的登录账号（手机号或邮箱），而非小米账号。</p>
+    <div class="main-container">
+        <div class="container">
+            <h1>Zepp Life 步数修改工具</h1>
+            
+            <div class="info">
+                <p>请输入您的 Zepp Life（小米运动）账号和密码，以及您想要设置的步数。</p>
+                <p>说明：账号为小米运动/Zepp Life 的登录账号（手机号或邮箱），而非小米账号。</p>
+            </div>
+            
+            <form id="stepForm" action="/modify_step" method="post">
+                <div class="form-group">
+                    <label for="username">账号（手机号或邮箱）：</label>
+                    <input type="text" id="username" name="username" required placeholder="请输入小米运动/Zepp Life账号">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码：</label>
+                    <input type="password" id="password" name="password" required placeholder="请输入账号密码">
+                </div>
+                
+                <div class="form-group">
+                    <label for="steps">步数：</label>
+                    <input type="number" id="steps" name="steps" min="0" max="98800" value="0" required>
+                    <input type="range" id="stepsSlider" min="0" max="98800" value="0" class="slider" style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span style="font-size: 12px; color: #666;">0</span>
+                        <span style="font-size: 12px; color: #666;">98800</span>
+                    </div>
+                </div>
+                
+                <div class="calc-btn">
+                    <button type="submit">提交修改</button>
+                </div>
+            </form>
+            
+            {% if message %}
+            <div class="response {% if success %}success{% else %}error{% endif %}">
+                <div class="response-content">
+                    <div class="response-title">{% if success %}操作成功{% else %}操作失败{% endif %}</div>
+                    <div class="response-message">{{ message }}</div>
+                </div>
+                <span class="response-close"></span>
+            </div>
+            <script>
+                // 如果表单提交成功且显示了消息，清空步数输入框
+                document.getElementById('steps').value = '';
+                document.getElementById('stepsSlider').value = '0';
+                
+                // 添加关闭按钮事件
+                const closeBtn = document.querySelector('.response-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        const responseDiv = this.parentElement;
+                        responseDiv.style.opacity = '0';
+                        responseDiv.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            responseDiv.remove();
+                        }, 300);
+                    });
+                }
+            </script>
+            {% endif %}
         </div>
         
-        <form id="stepForm" action="/modify_step" method="post">
-            <div class="form-group">
-                <label for="username">账号（手机号或邮箱）：</label>
-                <input type="text" id="username" name="username" required placeholder="请输入小米运动/Zepp Life账号">
+        <!-- 步数范围计算功能区域 -->
+        <div class="container">
+            <h2 class="section-title">Cron步数范围计算器</h2>
+            
+            <div class="info">
+                <p>此工具可以计算不同cron时间点的步数范围。请输入或修改cron表达式：</p>
+                <p>- 第一个数字表示<strong>分钟</strong>，如"0"表示在00分执行</p>
+                <p>- 第二个部分表示UTC时间的<strong>小时</strong>，转换为北京时间需要+8小时</p>
+                <p>- 北京时间22点及以后的时间点将达到最高步数值</p>
+                <p>输入最小步数和最大步数，点击计算按钮查看每个时间点的步数范围。</p>
             </div>
             
-            <div class="form-group">
-                <label for="password">密码：</label>
-                <input type="password" id="password" name="password" required placeholder="请输入账号密码">
+            <div class="calc-form">
+                <div class="form-group" style="flex-basis: 100%;">
+                    <label for="cronExpression">Cron表达式：</label>
+                    <input type="text" id="cronExpression" value="0 2,6,8,10,14 * * *" required placeholder="例如: 0 2,4,6,10,14 * * *">
+                </div>
+                
+                <div class="form-group">
+                    <label for="minStep">最小步数 (MIN_STEP)：</label>
+                    <input type="number" id="minStep" min="0" max="98800" value="10000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="maxStep">最大步数 (MAX_STEP)：</label>
+                    <input type="number" id="maxStep" min="0" max="98800" value="20000" required>
+                </div>
+                
+                <div class="calc-btn">
+                    <button type="button" id="calculateBtn" class="btn">计算步数范围</button>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label for="steps">步数：</label>
-                <input type="number" id="steps" name="steps" min="0" max="98800" value="0" required>
-                <input type="range" id="stepsSlider" min="0" max="98800" value="0" class="slider" style="width: 100%;">
+            <div id="tableContainer" class="table-container">
+                <table class="step-table">
+                    <thead>
+                        <tr>
+                            <th>执行时间（北京时间）</th>
+                            <th>最小步数范围</th>
+                            <th>最大步数范围</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stepTableBody">
+                        <!-- 表格内容将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
             </div>
-            
-            <button type="submit">提交修改</button>
-        </form>
-        
-        {% if message %}
-        <div class="response {% if success %}success{% else %}error{% endif %}">
-            <div class="response-content">
-                <div class="response-title">{% if success %}操作成功{% else %}操作失败{% endif %}</div>
-                <div class="response-message">{{ message }}</div>
-            </div>
-            <span class="response-close"></span>
         </div>
-        <script>
-            // 如果表单提交成功且显示了消息，清空步数输入框
-            document.getElementById('steps').value = '';
-            document.getElementById('stepsSlider').value = '0';
-            
-            // 添加关闭按钮事件
-            const closeBtn = document.querySelector('.response-close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    const responseDiv = this.parentElement;
-                    responseDiv.style.opacity = '0';
-                    responseDiv.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        responseDiv.remove();
-                    }, 300);
-                });
-            }
-        </script>
-        {% endif %}
+    </div>
+    
+    <!-- 新增卡片形式的步数范围结果区域 -->
+    <div id="resultsContainer" style="display: none; max-width: 1100px; margin: 30px auto;">
+        <div class="container" style="width: 100%; max-width: 100%;">
+            <h2 class="section-title">计算结果</h2>
+            <div class="enhanced-table-container">
+                <table class="enhanced-step-table">
+                    <thead>
+                        <tr>
+                            <th>执行时间（北京时间）</th>
+                            <th>最小步数</th>
+                            <th>最大步数</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                        <!-- 表格内容将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -379,6 +659,159 @@
 
         stepsInput.addEventListener('input', function() {
             stepsSlider.value = this.value;
+        });
+
+        // 步数范围计算功能
+        function calculateStepRanges() {
+            const minStep = parseInt(document.getElementById('minStep').value);
+            const maxStep = parseInt(document.getElementById('maxStep').value);
+            const cronExpression = document.getElementById('cronExpression').value.trim();
+            
+            if (isNaN(minStep) || isNaN(maxStep)) {
+                alert('请输入有效的最小步数和最大步数');
+                return false;
+            }
+            
+            if (minStep >= maxStep) {
+                alert('最小步数必须小于最大步数');
+                return false;
+            }
+            
+            // 解析cron表达式
+            let hours = [];
+            try {
+                const cronParts = cronExpression.split(' ');
+                if (cronParts.length < 2) {
+                    throw new Error('无效的cron表达式格式');
+                }
+                
+                const minute = cronParts[0];
+                const hourPart = cronParts[1];
+                
+                // 解析小时部分
+                if (hourPart.includes(',')) {
+                    hours = hourPart.split(',').map(h => parseInt(h.trim()));
+                } else if (hourPart.includes('-')) {
+                    const [start, end] = hourPart.split('-').map(h => parseInt(h.trim()));
+                    for (let i = start; i <= end; i++) {
+                        hours.push(i);
+                    }
+                } else if (hourPart === '*') {
+                    // 如果是 *，则使用默认值
+                    hours = [2, 5, 8, 11, 14];
+                } else {
+                    hours.push(parseInt(hourPart));
+                }
+                
+                // 更新说明文本中的时间点
+                updateTimeDescriptions(minute, hours);
+                
+            } catch (error) {
+                alert('无效的cron表达式: ' + error.message);
+                return false;
+            }
+            
+            // 计算并显示表格
+            const tableBody = document.getElementById('stepTableBody');
+            tableBody.innerHTML = '';
+            
+            // 清空并准备结果表格
+            const resultsTableBody = document.getElementById('resultsTableBody');
+            resultsTableBody.innerHTML = '';
+            
+            hours.forEach(utcHour => {
+                // 转换为北京时间
+                const localHour = (utcHour + 8) % 24;
+                const minute = cronExpression.split(' ')[0];
+                
+                // 计算步数范围
+                let minStepValue, maxStepValue;
+                
+                // 如果是北京时间22点及以后，直接使用最高步数值
+                if (localHour >= 22) {
+                    minStepValue = minStep;
+                    maxStepValue = maxStep;
+                } else {
+                    // 否则使用原有计算公式
+                    minStepValue = Math.floor(minStep * localHour / 22);
+                    maxStepValue = Math.floor(maxStep * localHour / 22);
+                }
+                
+                // 添加到增强表格
+                const resultRow = document.createElement('tr');
+                resultRow.innerHTML = `
+                    <td>${localHour}:${formatTwoDigits(minute)}</td>
+                    <td>${minStepValue}</td>
+                    <td>${maxStepValue}</td>
+                `;
+                resultsTableBody.appendChild(resultRow);
+                
+                // 兼容旧表格方式
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${localHour}:${formatTwoDigits(minute)}</td>
+                    <td>${minStepValue}</td>
+                    <td>${maxStepValue}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // 隐藏旧表格，显示新表格
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.style.display = 'none';
+            
+            // 显示结果容器
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.style.display = 'block';
+            
+            // 添加高亮效果，让用户知道计算完成
+            resultsContainer.classList.add('highlight-success');
+            setTimeout(() => {
+                resultsContainer.classList.remove('highlight-success');
+            }, 2000);
+            
+            // 确保滚动到新表格位置
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            return true; // 确保函数执行完成
+        }
+        
+        // 将数字格式化为两位数
+        function formatTwoDigits(num) {
+            return String(num).padStart(2, '0');
+        }
+        
+        // 更新时间描述
+        function updateTimeDescriptions(minute, hours) {
+            const timeDescElement = document.getElementById('timeDescription');
+            if (!timeDescElement) return;
+            
+            // 将UTC时间转换为北京时间
+            const localHours = hours.map(h => (h + 8) % 24);
+            
+            // 格式化为时间字符串，确保分钟为两位数
+            const localTimeStrings = localHours.map(h => `${h}:${formatTwoDigits(minute)}`);
+            
+            // 更新描述文本
+            timeDescElement.innerHTML = localTimeStrings.join('、');
+        }
+        
+        // 添加计算按钮事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认cron表达式
+            const cronInput = document.getElementById('cronExpression');
+            if (cronInput && !cronInput.value) {
+                cronInput.value = '1 2,5,8,11,14 * * *';
+            }
+            
+            const calculateBtn = document.getElementById('calculateBtn');
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', function() {
+                    if (calculateStepRanges()) {
+                        console.log('计算完成并显示表格');
+                    }
+                });
+            }
         });
     </script>
 </body>
